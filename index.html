@@ -197,14 +197,12 @@
         box-shadow: 0 0 0 transparent;
       }
     }
-    /* Make hero and info sections gray in dark mode */
 body.dark-mode .hero,
 body.dark-mode .info-section {
-  background-color: #7d878b; /* soft gray */
+  background-color: #7d878b; 
   color: black;
 }
 
-/* Optional: round corners and spacing for all modes */
 .hero,
 .info-section {
   padding: 20px;
@@ -214,8 +212,7 @@ body.dark-mode .info-section {
 
   </style>
 </head>
-<body>
-  <!-- Loader -->
+<body> 
   <div id="loader">
     <div class="loading">
       <div class="object"></div><div class="object"></div><div class="object"></div>
@@ -225,7 +222,6 @@ body.dark-mode .info-section {
     <p id="percentage">0%</p>
   </div>
 
-  <!-- Settings Panel -->
   <div id="settings-panel">
     <h4>Settings</h4>
     <label>
@@ -242,7 +238,6 @@ body.dark-mode .info-section {
     <input type="range" id="fontSizeSlider" min="14" max="24" value="16">
   </div>
 
-  <!-- Header -->
   <header>
     <nav>
       <div class="nav-left">
@@ -261,7 +256,6 @@ body.dark-mode .info-section {
     </nav>
   </header>
 
-  <!-- Main -->
   <main>
     
     <section class="hero">
@@ -289,7 +283,6 @@ body.dark-mode .info-section {
       <p>Steps to start using clean energy go here.</p>
     </section>
 
-    <!-- Search Suggestions Box -->
 <div id="searchResults" style="
   position: absolute;
   top: 60px;
@@ -308,10 +301,7 @@ body.dark-mode .info-section {
 "></div>
 
   </main>
-
-  <!-- Scripts -->
   <script>
-  // Apply saved settings when the page loads
   window.addEventListener("DOMContentLoaded", () => {
     const savedDark = localStorage.getItem("dark-mode") === "true";
     const savedFont = localStorage.getItem("font-family");
@@ -339,19 +329,17 @@ body.dark-mode .info-section {
   const fontSelect = document.getElementById("fontSelect");
 
   fontSelect.addEventListener("change", function () {
-    // Set font permanently & save
+
     document.body.style.fontFamily = this.value;
     localStorage.setItem("font-family", this.value);
   });
 
-  // Live preview on mouseover & mouseout for font options
+
   fontSelect.querySelectorAll("option").forEach(option => {
     option.addEventListener("mouseenter", () => {
-      // Preview font on hover
       document.body.style.fontFamily = option.value;
     });
     option.addEventListener("mouseleave", () => {
-      // Revert to saved or default font on mouse leave
       const savedFont = localStorage.getItem("font-family") || "sans-serif";
       document.body.style.fontFamily = savedFont;
       fontSelect.value = savedFont;
@@ -388,11 +376,9 @@ body.dark-mode .info-section {
     document.getElementById("loader").style.display = "none";
   }
 
-  // ---------- SEARCH FUNCTIONALITY ----------
   const searchInput = document.getElementById("searchInput");
   const searchResults = document.getElementById("searchResults");
 
-  // Add clear button
   const clearBtn = document.createElement("div");
   clearBtn.id = "clearBtn";
   clearBtn.innerHTML = "✖";
@@ -446,7 +432,6 @@ body.dark-mode .info-section {
       if (text.includes(query)) {
         matches.push({ el, text: el.textContent.trim() });
 
-        // Highlight in content
         const innerHTML = el.innerHTML;
         const regex = new RegExp(`(${query})`, "gi");
         el.innerHTML = innerHTML.replace(regex, `<span class="highlight">$1</span>`);
