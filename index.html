@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <title>Clean & Affordable Energy</title>
+ <link rel="stylesheet" href="style.css" />
+ <link href="https://fonts.googleapis.com/css2?family=Spectral&family=EB+Garamond&display=swap" rel="stylesheet">
+ <style>
+    
+    body {
+      font-family: sans-serif;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    body.dark-mode {
+      background: #121212;
+      color: #383838;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #5ccac4;
+      padding: 10px;
+    }
+
+    body.dark-mode nav {
+      background: #3b6b85;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+    }
+
+    .search-bar {
+      padding: 5px 10px;
+      border-radius: 5px;
+      border: none;
+      font-size: 16px;
+    }
+
+    body.dark-mode .search-bar {
+      background: #2a2a2a;
+      color: #a7a6a6;
+    }
+
+    body.dark-mode .search-bar::placeholder {
+      color: #aaa;
+    }
+
+    .nav-middle {
+      list-style: none;
+      display: flex;
+      gap: 15px;
+    }
+
+    .nav-middle li {
+      display: inline;
+    }
+
+    .nav-right img {
+      width: 24px;
+      margin-left: 15px;
+      cursor: pointer;
+    }
+
+    #loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #4cb7d1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 9999;
+    }
+
+    body.dark-mode #loader {
+      background: #2b3f4f;
+    }
+
+    .loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .object {
+      width: 6px;
+      height: 50px;
+      background: white;
+      margin: 0 3px;
+      border-radius: 10px;
+      animation: load 0.9s infinite;
+    }
+
+    body.dark-mode .object {
+      background: #444444;
+    }
+
+    .object:nth-child(2) { animation-delay: 0.1s; }
+    .object:nth-child(3) { animation-delay: 0.2s; }
+    .object:nth-child(4) { animation-delay: 0.3s; }
+    .object:nth-child(5) { animation-delay: 0.4s; }
+    .object:nth-child(6) { animation-delay: 0.5s; }
+    .object:nth-child(7) { animation-delay: 0.6s; }
+
+    @keyframes load {
+      0% { height: 0; }
+      50% { height: 50px; }
+      100% { height: 0; }
+    }
+
+    #percentage {
+      font-size: 20px;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+
+    body.dark-mode #percentage {
+      color: #000000;
+    }
+
+    .fade-out {
+      opacity: 0;
+      transition: opacity 1s ease-out;
+      pointer-events: none;
+    }
+
+    #settings-panel {
+      position: fixed;
+      top: 60px;
+      right: 20px;
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      display: none;
+      z-index: 999;
+    }
+
+    body.dark-mode #settings-panel {
+      background: #1e1e1e;
+      color: rgb(0, 0, 0);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    }
+
+    #searchResults {
+      position: absolute;
+      top: 60px;
+      left: 10px;
+      background: white;
+      border: 1px solid #ccc;
+      max-height: 200px;
+      overflow-y: auto;
+      width: 200px;
+      display: none;
+      z-index: 1000;
+      padding: 5px;
+      font-size: 14px;
+      border-radius: 4px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+
+    body.dark-mode #searchResults {
+      background: #2b2b2b;
+      color: #000000;
+      border-color: #444;
+    }
+
+    .highlight {
+      background-color: yellow;
+      font-weight: bold;
+      animation: glowFade 1s ease-out;
+      border-radius: 4px;
+      padding: 0 2px;
+    }
+
+    @keyframes glowFade {
+      0% {
+        background-color: #ffffcc;
+        box-shadow: 0 0 5px rgba(255, 255, 0, 0.8);
+      }
+      50% {
+        background-color: #fff799;
+        box-shadow: 0 0 12px rgba(255, 255, 0, 1);
+      }
+      100% {
+        background-color: yellow;
+        box-shadow: 0 0 0 transparent;
+      }
+    }
+    /* Make hero and info sections gray in dark mode */
+body.dark-mode .hero,
+body.dark-mode .info-section {
+  background-color: #7d878b; /* soft gray */
+  color: black;
+}
+
+/* Optional: round corners and spacing for all modes */
+.hero,
+.info-section {
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+  </style>
+</head>
+<body>
+  <!-- Loader -->
+  <div id="loader">
+    <div class="loading">
+      <div class="object"></div><div class="object"></div><div class="object"></div>
+      <div class="object"></div><div class="object"></div><div class="object"></div>
+      <div class="object"></div>
+    </div>
+    <p id="percentage">0%</p>
+  </div>
+
+  <!-- Settings Panel -->
+  <div id="settings-panel">
+    <h4>Settings</h4>
+    <label>
+      <input type="checkbox" id="darkToggle" />
+      Dark Mode
+    </label><br><br>
+    <label>Font Style:</label>
+    <select id="fontSelect">
+      <option value="sans-serif">Sans Serif (Default)</option>
+      <option value="Spectral, serif">Spectral</option>
+      <option value="EB Garamond, serif">EB Garamond</option>
+    </select><br><br>
+    <label>Text Size: </label>
+    <input type="range" id="fontSizeSlider" min="14" max="24" value="16">
+  </div>
+
+  <!-- Header -->
+  <header>
+    <nav>
+      <div class="nav-left">
+        <input type="text" id="searchInput" placeholder="Search..." class="search-bar" autocomplete="off" />
+      </div>
+      <ul class="nav-middle">
+        <li><a href="wind.html" target="_blank">Wind Energy</a></li>
+        <li><a href="solar.html" target="_blank">Solar Energy</a></li>
+        <li><a href="water.html" target="_blank">Water Energy</a></li>
+      </ul>
+      <div class="nav-right">
+        <img src="icons/home.svg" alt="Home" onclick="location.href='index.html'" />
+        <img src="icons/misc.svg" alt="Misc" onclick="window.open('articles.html', '_blank')" />
+        <img src="icons/settings.svg" alt="Settings" onclick="toggleSettings()" />
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main -->
+  <main>
+    
+    <section class="hero">
+      <h1>Clean & Affordable Energy</h1>
+      <p>Discover how you can make simple, impactful changes in your life.</p>
+    </section>
+
+    <section class="info-section">
+      <h2>Why Clean Energy Matters</h2>
+      <p>Switching to clean energy reduces pollution, saves money, and supports a sustainable future.</p>
+      <a href="#get-started" class="button">How to Get Started</a>
+    </section>
+
+    <section class="info-section">
+      <h2>Did You Know?</h2>
+      <ul class="facts">
+        <li>Renewable energy now powers over 30% of the world.</li>
+        <li>Solar energy can cut household energy bills significantly.</li>
+        <li>Wind power is one of the fastest-growing sources of electricity.</li>
+      </ul>
+    </section>
+
+    <section id="get-started" class="info-section">
+      <h2>How to Get Started</h2>
+      <p>Steps to start using clean energy go here.</p>
+    </section>
+
+    <!-- Search Suggestions Box -->
+<div id="searchResults" style="
+  position: absolute;
+  top: 60px;
+  left: 10px;
+  background: white;
+  border: 1px solid #ccc;
+  max-height: 200px;
+  overflow-y: auto;
+  width: 200px;
+  display: none;
+  z-index: 1000;
+  padding: 5px;
+  font-size: 14px;
+  border-radius: 4px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+"></div>
+
+  </main>
+
+  <!-- Scripts -->
+  <script>
+  // Apply saved settings when the page loads
+  window.addEventListener("DOMContentLoaded", () => {
+    const savedDark = localStorage.getItem("dark-mode") === "true";
+    const savedFont = localStorage.getItem("font-family");
+    const savedSize = localStorage.getItem("font-size");
+
+    if (savedDark) {
+      document.body.classList.add("dark-mode");
+      document.getElementById("darkToggle").checked = true;
+    }
+    if (savedFont) {
+      document.body.style.fontFamily = savedFont;
+      document.getElementById("fontSelect").value = savedFont;
+    }
+    if (savedSize) {
+      document.body.style.fontSize = savedSize;
+      document.getElementById("fontSizeSlider").value = parseInt(savedSize);
+    }
+  });
+
+  function toggleSettings() {
+    const panel = document.getElementById("settings-panel");
+    panel.style.display = panel.style.display === "block" ? "none" : "block";
+  }
+
+  const fontSelect = document.getElementById("fontSelect");
+
+  fontSelect.addEventListener("change", function () {
+    // Set font permanently & save
+    document.body.style.fontFamily = this.value;
+    localStorage.setItem("font-family", this.value);
+  });
+
+  // Live preview on mouseover & mouseout for font options
+  fontSelect.querySelectorAll("option").forEach(option => {
+    option.addEventListener("mouseenter", () => {
+      // Preview font on hover
+      document.body.style.fontFamily = option.value;
+    });
+    option.addEventListener("mouseleave", () => {
+      // Revert to saved or default font on mouse leave
+      const savedFont = localStorage.getItem("font-family") || "sans-serif";
+      document.body.style.fontFamily = savedFont;
+      fontSelect.value = savedFont;
+    });
+  });
+
+  document.getElementById("fontSizeSlider").addEventListener("input", function () {
+    const newSize = this.value + "px";
+    document.body.style.fontSize = newSize;
+    localStorage.setItem("font-size", newSize);
+  });
+
+  document.getElementById("darkToggle").addEventListener("change", function () {
+    const isDark = this.checked;
+    document.body.classList.toggle("dark-mode", isDark);
+    localStorage.setItem("dark-mode", isDark);
+  });
+
+  if (!sessionStorage.getItem("visited")) {
+    let percent = 0;
+    const percentageText = document.getElementById("percentage");
+    const loader = document.getElementById("loader");
+    const interval = setInterval(() => {
+      percent++;
+      percentageText.textContent = percent + "%";
+      if (percent >= 100) {
+        clearInterval(interval);
+        loader.classList.add("fade-out");
+        setTimeout(() => loader.remove(), 1000);
+      }
+    }, 50);
+    sessionStorage.setItem("visited", "true");
+  } else {
+    document.getElementById("loader").style.display = "none";
+  }
+
+  // ---------- SEARCH FUNCTIONALITY ----------
+  const searchInput = document.getElementById("searchInput");
+  const searchResults = document.getElementById("searchResults");
+
+  // Add clear button
+  const clearBtn = document.createElement("div");
+  clearBtn.id = "clearBtn";
+  clearBtn.innerHTML = "✖";
+  clearBtn.style.position = "absolute";
+  clearBtn.style.top = "50%";
+  clearBtn.style.right = "20px";
+  clearBtn.style.transform = "translateY(-50%)";
+  clearBtn.style.cursor = "pointer";
+  clearBtn.style.fontSize = "16px";
+  clearBtn.style.display = "none";
+  clearBtn.style.color = "#555";
+  clearBtn.style.userSelect = "none";
+  document.querySelector(".nav-left").style.position = "relative";
+  document.querySelector(".nav-left").appendChild(clearBtn);
+
+  clearBtn.addEventListener("click", () => {
+    searchInput.value = "";
+    searchResults.innerHTML = "";
+    searchResults.style.display = "none";
+    clearBtn.style.display = "none";
+    removeHighlights();
+  });
+
+  function removeHighlights() {
+    const highlighted = document.querySelectorAll(".highlight");
+    highlighted.forEach(el => {
+      const parent = el.parentNode;
+      parent.replaceChild(document.createTextNode(el.textContent), el);
+      parent.normalize();
+    });
+  }
+
+  searchInput.addEventListener("input", function () {
+    const query = this.value.toLowerCase().trim();
+    searchResults.innerHTML = "";
+    removeHighlights();
+
+    if (query.length < 2) {
+      searchResults.style.display = "none";
+      clearBtn.style.display = "none";
+      return;
+    }
+
+    clearBtn.style.display = "block";
+
+    const searchableElements = document.querySelectorAll("main h1, main h2, main p, main li");
+    const matches = [];
+
+    searchableElements.forEach(el => {
+      const text = el.textContent.toLowerCase();
+      if (text.includes(query)) {
+        matches.push({ el, text: el.textContent.trim() });
+
+        // Highlight in content
+        const innerHTML = el.innerHTML;
+        const regex = new RegExp(`(${query})`, "gi");
+        el.innerHTML = innerHTML.replace(regex, `<span class="highlight">$1</span>`);
+      }
+    });
+
+    if (matches.length === 0) {
+      searchResults.innerHTML = "<em>No results found</em>";
+    } else {
+      matches.slice(0, 10).forEach(match => {
+        const item = document.createElement("div");
+        item.textContent = match.text;
+        item.style.padding = "4px 6px";
+        item.style.cursor = "pointer";
+
+        item.addEventListener("click", () => {
+          const target = match.el;
+          if (!target.id) {
+            target.id = "search-" + Math.random().toString(36).substring(2, 9);
+          }
+          location.hash = "#" + target.id;
+          searchResults.style.display = "none";
+          searchInput.value = "";
+          clearBtn.style.display = "none";
+        });
+
+        searchResults.appendChild(item);
+      });
+    }
+
+    searchResults.style.display = "block";
+  });
+
+  document.addEventListener("click", function (e) {
+    if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+      searchResults.style.display = "none";
+    }
+  });
+</script>
+
+</body>
+</html>
