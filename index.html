@@ -13,21 +13,12 @@
       transition: background 0.3s, color 0.3s;
     }
 
-    body.dark-mode {
-      background: #121212;
-      color: #383838;
-    }
-
     nav {
       display: flex;
       justify-content: space-between;
       align-items: center;
       background: #5ccac4;
       padding: 10px;
-    }
-
-    body.dark-mode nav {
-      background: #3b6b85;
     }
 
     .nav-left {
@@ -40,15 +31,6 @@
       border-radius: 5px;
       border: none;
       font-size: 16px;
-    }
-
-    body.dark-mode .search-bar {
-      background: #2a2a2a;
-      color: #a7a6a6;
-    }
-
-    body.dark-mode .search-bar::placeholder {
-      color: #aaa;
     }
 
     .nav-middle {
@@ -81,10 +63,6 @@
       z-index: 9999;
     }
 
-    body.dark-mode #loader {
-      background: #2b3f4f;
-    }
-
     .loading {
       display: flex;
       align-items: center;
@@ -99,10 +77,6 @@
       margin: 0 3px;
       border-radius: 10px;
       animation: load 0.9s infinite;
-    }
-
-    body.dark-mode .object {
-      background: #444444;
     }
 
     .object:nth-child(2) { animation-delay: 0.1s; }
@@ -124,10 +98,6 @@
       font-family: Arial, sans-serif;
     }
 
-    body.dark-mode #percentage {
-      color: #000000;
-    }
-
     .fade-out {
       opacity: 0;
       transition: opacity 1s ease-out;
@@ -146,12 +116,6 @@
       z-index: 999;
     }
 
-    body.dark-mode #settings-panel {
-      background: #1e1e1e;
-      color: rgb(0, 0, 0);
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
-    }
-
     #searchResults {
       position: absolute;
       top: 60px;
@@ -168,13 +132,7 @@
       border-radius: 4px;
       box-shadow: 0 0 5px rgba(0,0,0,0.1);
     }
-
-    body.dark-mode #searchResults {
-      background: #2b2b2b;
-      color: #000000;
-      border-color: #444;
-    }
-
+  
     .highlight {
       background-color: yellow;
       font-weight: bold;
@@ -197,10 +155,83 @@
         box-shadow: 0 0 0 transparent;
       }
     }
+
+body.dark-mode {
+  background: #1a1a1a;
+  color: #e0e0e0;
+}
+
+body.dark-mode nav {
+  background: #2d3748; 
+}
+
+body.dark-mode .search-bar {
+  background: #374151;
+  color: #f3f4f6;
+  border: 1px solid #4b5563;
+}
+
+body.dark-mode .search-bar::placeholder {
+  color: #9ca3af; 
+}
+
+body.dark-mode #loader {
+  background: #111827;
+}
+
+body.dark-mode #percentage {
+  color: #f9fafb; 
+}
+
+body.dark-mode .object {
+  background: #60a5fa;
+}
+
+body.dark-mode #settings-panel {
+  background: #374151;
+  color: #f3f4f6;
+  border: 1px solid #4b5563;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-mode #searchResults {
+  background: #374151;
+  color: #f3f4f6; 
+  border-color: #4b5563;
+}
+
 body.dark-mode .hero,
 body.dark-mode .info-section {
-  background-color: #7d878b; 
-  color: black;
+  background-color: #374151; 
+  color: #f3f4f6; 
+  border: 1px solid #4b5563;
+}
+
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3 {
+  color: #60a5fa;
+}
+
+body.dark-mode a {
+  color: #93c5fd;
+}
+
+body.dark-mode a:hover {
+  color: #dbeafe;
+}
+
+body.dark-mode .button {
+  background-color: #2563eb;
+  color: #f9fafb;
+}
+
+body.dark-mode .button:hover {
+  background-color: #1d4ed8;
+}
+
+body, nav, .search-bar, #settings-panel, .hero, .info-section {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 .hero,
@@ -244,9 +275,9 @@ body.dark-mode .info-section {
         <input type="text" id="searchInput" placeholder="Search..." class="search-bar" autocomplete="off" />
       </div>
       <ul class="nav-middle">
-        <li><a href="wind.html" target="_blank">Wind Energy</a></li>
-        <li><a href="solar.html" target="_blank">Solar Energy</a></li>
-        <li><a href="water.html" target="_blank">Water Energy</a></li>
+        <li><a href="wind.html" target="_self">Wind Energy</a></li>
+        <li><a href="solar.html"target="_self">Solar Energy</a></li>
+        <li><a href="water.html"target="_self">Water Energy</a></li>
       </ul>
       <div class="nav-right">
         <img src="icons/home.svg" alt="Home" onclick="location.href='index.html'" />
