@@ -5,11 +5,19 @@
  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
  <title>Clean & Affordable Energy</title>
  <link rel="stylesheet" href="style.css" />
+ <link href="https://fonts.googleapis.com/css2?family=EB+Garamond&family=Spectral&display=swap" rel="stylesheet">
  <style>
-    
+    :root {
+  --main-font: 'EB Garamond', serif;
+}
+
+body {
+  font-family: var(--main-font);
+}
+
     body {
-      font-family: sans-serif;
-      transition: background 0.3s, color 0.3s;
+    font-family: 'EB Garamond', 'Spectral', sans-serif, Arial, Helvetica;
+    transition: background 0.3s, color 0.3s;
     }
 
     nav {
@@ -296,10 +304,11 @@ body.dark-mode .hero p {
     </label><br><br>
     <label>Font Style:</label>
     <select id="fontSelect">
-      <option value="sans-serif">Sans Serif (Default)</option>
-      <option value="Spectral, serif">Spectral</option>
-      <option value="EB Garamond, serif">EB Garamond</option>
-    </select><br><br>
+  <option value="'EB Garamond', serif">EB Garamond</option>
+  <option value="'Spectral', serif">Spectral</option>
+  <option value="sans-serif">Sans Serif (Default)</option>
+</select>
+<br><br>
     <label>Text Size: </label>
     <input type="range" id="fontSizeSlider" min="14" max="24" value="16">
   </div>
@@ -311,8 +320,9 @@ body.dark-mode .hero p {
       </div>
       <ul class="nav-middle">
         <li><a href="wind.html" target="_self">Wind Energy</a></li>
-        <li><a href="solar.html"target="_self">Solar Energy</a></li>
-        <li><a href="water.html"target="_self">Water Energy</a></li>
+        <li><a href="solar.html" target="_self">Solar Energy</a></li>
+        <li><a href="water.html" target="_self">Water Energy</a></li>
+
       </ul>
       <div class="nav-right">
         <img src="homepage.png" alt="Home" onclick="location.href='index.html'" />
@@ -436,25 +446,20 @@ body.dark-mode .hero p {
     panel.style.display = panel.style.display === "block" ? "none" : "block";
   }
 
-  const fontSelect = document.getElementById("fontSelect");
+ const fontSelect = document.getElementById("fontSelect");
 
-  fontSelect.addEventListener("change", function () {
+fontSelect.addEventListener("change", function() {
+  const newFont = this.value;
+  document.body.style.fontFamily = newFont;
+  localStorage.setItem("font-family", newFont);
+});
 
-    document.body.style.fontFamily = this.value;
-    localStorage.setItem("font-family", this.value);
-  });
+const savedFont = localStorage.getItem("font-family");
+if (savedFont) {
+  document.documentElement.style.setProperty("--main-font", savedFont);
+  fontSelect.value = savedFont;
+}
 
-
-  fontSelect.querySelectorAll("option").forEach(option => {
-    option.addEventListener("mouseenter", () => {
-      document.body.style.fontFamily = option.value;
-    });
-    option.addEventListener("mouseleave", () => {
-      const savedFont = localStorage.getItem("font-family") || "sans-serif";
-      document.body.style.fontFamily = savedFont;
-      fontSelect.value = savedFont;
-    });
-  });
 
   document.getElementById("fontSizeSlider").addEventListener("input", function () {
     const newSize = this.value + "px";
@@ -483,7 +488,7 @@ body.dark-mode .hero p {
     }, 50);
     sessionStorage.setItem("visited", "true");
   } else {
-    document.getElementById("loader").style.display = "none";
+
   }
 
   const searchInput = document.getElementById("searchInput");
@@ -513,18 +518,18 @@ body.dark-mode .hero p {
   });
 
   function removeHighlights() {
-    const highlighted = document.querySelectorAll(".highlight");
-    highlighted.forEach(el => {
-      const parent = el.parentNode;
-      parent.replaceChild(document.createTextNode(el.textContent), el);
-      parent.normalize();
-    });
-  }
+  document.querySelectorAll(".highlight").forEach(span => {
+    span.replaceWith(document.createTextNode(span.textContent));
+  });
+}
+
 
   searchInput.addEventListener("input", function () {
     const query = this.value.toLowerCase().trim();
     searchResults.innerHTML = "";
-    removeHighlights();
+    document.querySelectorAll(".highlight").forEach(el => {
+  el.replaceWith(document.createTextNode(el.textContent));
+});
 
     if (query.length < 2) {
       searchResults.style.display = "none";
@@ -580,6 +585,9 @@ body.dark-mode .hero p {
       searchResults.style.display = "none";
     }
   });
+  
+  document.getElementById("loader").style.display = "none";
+
 </script>
 
 </body>
